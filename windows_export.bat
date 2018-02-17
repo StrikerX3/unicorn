@@ -33,11 +33,21 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\15.0
 :break
 
 if "%appdir%"=="" (
+    if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
+          set appdir=%%i\VC\Auxiliary\Build\vcvarsall.bat
+        )
+    )
+) else (
+    set appdir="%appdir%..\..\VC\vcvarsall.bat"
+)
+
+if "%appdir%"=="" (
     echo Could not find an installed visual studio version. Abandoning windows static lib export operation.
 ) else (
     :: Add the Visual Studio binaries to our path and run the linker
-    call "%appdir%..\..\VC\vcvarsall.bat" %1
-    call lib /machine:%1 /def:unicorn.def
+    call "%appdir%" %1
+    call lib /machine:%1 /def:%CD%\unicorn.def /out:%CD%\unicorn.lib
 )
 
 exit /b 0

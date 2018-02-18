@@ -153,7 +153,7 @@ typedef enum uc_err {
     UC_ERR_HOOK_EXIST,  // hook for this event already existed
     UC_ERR_RESOURCE,    // Insufficient resource: uc_emu_start()
     UC_ERR_EXCEPTION, // Unhandled CPU exception
-    UC_ERR_NOT_RUNNING, // Emulation is not running: uc_emu_stop()
+    UC_ERR_ALREADY_STOPPED, // Emulation was already stopped: uc_emu_stop()
 } uc_err;
 
 

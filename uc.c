@@ -101,8 +101,6 @@ const char *uc_strerror(uc_err code)
             return "Insufficient resource (UC_ERR_RESOURCE)";
         case UC_ERR_EXCEPTION:
             return "Unhandled CPU exception (UC_ERR_EXCEPTION)";
-        case UC_ERR_ALREADY_STOPPED:
-            return "Emulation was already stopped (UC_ERR_ALREADY_STOPPED)";
     }
 }
 
@@ -634,7 +632,7 @@ UNICORN_EXPORT
 uc_err uc_emu_stop(uc_engine *uc)
 {
     if (uc->emulation_done)
-        return UC_ERR_ALREADY_STOPPED;
+        return UC_ERR_OK;
 
     uc->stop_request = true;
     // TODO: make this atomic somehow?
